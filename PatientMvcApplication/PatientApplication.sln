@@ -11,10 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "C:\Users\ananshar\source\repos\PatientApplication\WebApi\WebApi\WebApi.csproj", "{3E6C6F09-6206-4100-A2CF-C265625BDBD9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Tests", "C:\Users\ananshar\source\repos\PatientApplication\WebApi\WebApi.Tests\WebApi.Tests.csproj", "{C79E0785-5717-4048-B58F-422A252B400C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
