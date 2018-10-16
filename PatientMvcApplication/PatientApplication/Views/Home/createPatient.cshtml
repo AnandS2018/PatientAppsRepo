@@ -1,0 +1,156 @@
+﻿@model PatientApplication.Models.PatientDetail
+@*@{
+    ViewBag.Title = "Create Patient";
+}*@
+
+<h2>New Patient</h2>
+
+@using (Html.BeginForm())
+{
+
+    <script src="~/Scripts/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+
+    <script type="text/javascript" src="../../Scripts/jquery-1.4.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //assign button click event to call function to create html table dynamically
+            $("#btnCreateHtmlTable").click(function () {
+                var patient = new Object();
+                patient.TelephoneNumber = $('#TelephoneNumber').val();
+                patient.TypeId = $('#TypeId').val();
+                patient.ForeName = $('#ForeName').val();
+                patient.SurName = $('#SurName').val();
+                patient.DOB = $('#DOB').val();
+                patient.Gender = $('#Gender').val();
+                CreateHtmlTable(patient);
+            });
+        }
+        );
+
+        function CreateHtmlTable(patient) {
+
+            document.getElementById("TelephoneNumber").value = "";
+            //Clear result div
+            $("#ResultArea").html("");
+
+            //Crate table html tag
+            var table = $("<table id=DynamicTable border=1></table>").appendTo("#ResultArea");
+
+            //Create table header row
+            var rowHeader = $("<tr></tr>").appendTo(table);
+            $("<td></td>").text("ContactType").appendTo(rowHeader);
+            $("<td></td").text("Number").appendTo(rowHeader);
+
+
+            //Get JSON data by calling action method in controller
+            $.post('/home/AjaxPostCall', patient, function (data) {
+                $.each(data, function (i, value) {
+
+                    //Create new row for each record
+                    var row = $("<tr></tr>").appendTo(table);
+                    $("<td></td>").text(value.TelType).appendTo(row);
+                    $("<td></td>").text(value.TelNumber).appendTo(row);
+
+                });
+            });
+        }
+
+    </script>
+    <script type="text/javascript">
+        $("#CreatePatient").click(function () {
+            var options = {};
+            options.url = "/Home/createPatient";
+            options.type = "POST";
+            options.data = JSON.stringify(options );
+            options.contentType = "application/json";
+            options.dataType = "json";
+            $.ajax(options);
+        });
+    </script>
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+
+            @Html.LabelFor(model => model.ForeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ForeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ForeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SurName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SurName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TypeId, "ContactType", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.EnumDropDownListFor(model => model.TypeId, Model.TypeId.ToSelectList())
+                @*@Html.DropDownList("list",ViewData["list"] as SelectList)*@
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TelephoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TelephoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TelephoneNumber, "", new { @class = "text-danger" })
+                <input type="button" id="btnCreateHtmlTable" value="AddNewPhone" />
+            </div>
+            <div id="ResultArea" >
+            </div>
+            </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save"  id="CreatePatient"/>
+
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@*@section Scripts {
+        @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    }*@
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
