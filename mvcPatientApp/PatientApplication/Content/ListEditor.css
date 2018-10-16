@@ -1,0 +1,25 @@
+ul.ListEditor {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.ListEditor span, div.addItem {
+    color: silver;
+    font-size: 12px;
+    margin-left: 0.5em;
+}
+
+ul.ListEditor span:hover {
+    color: steelblue;
+    cursor: pointer;
+}
+
+div.addItem {
+    color: steelblue;
+}
+
+div.addItem:hover {
+    color: midnightblue;
+    cursor: pointer;
+}
